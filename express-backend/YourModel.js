@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const yourSchema = new mongoose.Schema({
-    // Define the schema fields here
-    field1: String,
-    field2: Number,
-    // Add more fields as needed
+    structure_id: Number,
+    structure_type: String,
+    user_id: Number,
+    tags: [String],
 });
 
 const YourModel = mongoose.model('YourModel', yourSchema);
