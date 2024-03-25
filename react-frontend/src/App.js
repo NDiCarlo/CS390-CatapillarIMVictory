@@ -1,11 +1,12 @@
-// App.js
 import React, { useState, useEffect } from 'react';
-import CartDropdown from './CartDropdown'; // Import CartDropdown component
-import './App.css'; // Import CSS file for styling
+import CartDropdown from './CartDropdown';
+import './App.css';
 
 function App() {
+    // Initialize cart state with items from local storage, if available
+    const initialCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const [data, setData] = useState([]);
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(initialCartItems);
     const [cartVisible, setCartVisible] = useState(false);
 
     useEffect(() => {
@@ -19,11 +20,16 @@ function App() {
                 throw new Error('Network response was not ok');
             }
             const jsonData = await response.json();
-            console.log(jsonData); // Log received data
-            setData(jsonData.map(item => ({ ...item, quantity: 0 }))); // Add 'quantity' property to each item
+            setData(jsonData.map(item => ({ ...item, quantity: 0 })));
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    };
+
+    // Function to update cart state and local storage
+    const updateCart = (updatedCartItems) => {
+        setCartItems(updatedCartItems);
+        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
     };
 
     const addToCart = (item) => {
@@ -31,15 +37,15 @@ function App() {
         if (existingItemIndex !== -1) {
             const updatedCartItems = [...cartItems];
             updatedCartItems[existingItemIndex].quantity++;
-            setCartItems(updatedCartItems);
+            updateCart(updatedCartItems);
         } else {
-            setCartItems([...cartItems, { ...item, quantity: 1 }]);
+            updateCart([...cartItems, { ...item, quantity: 1 }]);
         }
     };
 
     const removeFromCart = (itemToRemove) => {
         const updatedCartItems = cartItems.filter(item => item !== itemToRemove);
-        setCartItems(updatedCartItems);
+        updateCart(updatedCartItems);
     };
 
     const adjustQuantity = (item, increment) => {
@@ -48,9 +54,9 @@ function App() {
         updatedCartItems[itemToUpdateIndex].quantity += increment;
 
         if (updatedCartItems[itemToUpdateIndex].quantity <= 0) {
-            updatedCartItems.splice(itemToUpdateIndex, 1); // Remove item if quantity is zero
+            updatedCartItems.splice(itemToUpdateIndex, 1);
         }
-        setCartItems(updatedCartItems);
+        updateCart(updatedCartItems);
     };
 
     const toggleCartVisibility = () => {

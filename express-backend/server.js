@@ -34,7 +34,7 @@ const DataModel = mongoose.model('structures', DataSchema);
 // Define routes
 app.get('/api/data', async (req, res) => {
     try {
-        const data = await YourModel.find();
+        const data = await DataModel.find();
         res.json(data);
     } catch (err) {
         res.status(500).json({ message: err.message });
