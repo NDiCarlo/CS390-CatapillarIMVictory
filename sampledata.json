@@ -1,0 +1,62 @@
+[
+  {
+    "structure_id": 1,
+    "structure_type": "Building",
+    "user_id": 101,
+    "tags": ["residential", "modern", "urban"]
+  },
+  {
+    "structure_id": 2,
+    "structure_type": "Bridge",
+    "user_id": 102,
+    "tags": ["engineering", "steel", "river-crossing"]
+  },
+  {
+    "structure_id": 3,
+    "structure_type": "Park",
+    "user_id": 103,
+    "tags": ["green-space", "recreational", "family-friendly"]
+  },
+  {
+    "structure_id": 4,
+    "structure_type": "Office Complex",
+    "user_id": 104,
+    "tags": ["commercial", "business-district", "skyscraper"]
+  },
+  {
+    "structure_id": 5,
+    "structure_type": "Reservoir",
+    "user_id": 105,
+    "tags": ["water-storage", "dam", "hydroelectric"]
+  },
+  {
+    "structure_id": 6,
+    "structure_type": "Highway",
+    "user_id": 106,
+    "tags": ["transportation", "interstate", "road-network"]
+  },
+  {
+    "structure_id": 7,
+    "structure_type": "Hospital",
+    "user_id": 107,
+    "tags": ["medical", "healthcare", "emergency"]
+  },
+  {
+    "structure_id": 8,
+    "structure_type": "School",
+    "user_id": 108,
+    "tags": ["education", "learning", "students"]
+  },
+  {
+    "structure_id": 9,
+    "structure_type": "Museum",
+    "user_id": 109,
+    "tags": ["art", "history", "exhibition"]
+  },
+  {
+    "structure_id": 10,
+    "structure_type": "Shopping Mall",
+    "user_id": 110,
+    "tags": ["retail", "shopping", "entertainment"]
+  }
+]
