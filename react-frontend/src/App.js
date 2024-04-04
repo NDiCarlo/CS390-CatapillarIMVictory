@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route as RoutePath } from 'react-router-dom';
 import CartDropdown from './CartDropdown';
+import CheckoutPage from './CheckoutPage';
 import './App.css';
 
 function App() {
@@ -7,7 +9,8 @@ function App() {
     const initialCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const [data, setData] = useState([]);
     const [cartItems, setCartItems] = useState(initialCartItems);
-    const [cartVisible, setCartVisible] = useState(false);
+    const [cartVisible, setCartVisible] = useState(true); // Initially visible
+    const [currentPage, setCurrentPage] = useState('/');
 
     useEffect(() => {
         fetchData();
@@ -26,10 +29,8 @@ function App() {
         }
     };
 
-    // Function to update cart state and local storage
-    const updateCart = (updatedCartItems) => {
-        setCartItems(updatedCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    const toggleCartVisibility = () => {
+        setCartVisible(!cartVisible);
     };
 
     const addToCart = (item) => {
@@ -59,34 +60,58 @@ function App() {
         updateCart(updatedCartItems);
     };
 
-    const toggleCartVisibility = () => {
-        setCartVisible(!cartVisible);
+    const updateCart = (updatedCartItems) => {
+        setCartItems(updatedCartItems);
+        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
     };
 
     return (
-        <div className="container">
-            <div className="cart-dropdown">
-                <button onClick={toggleCartVisibility} className="cart-button">
-                    Cart ({cartItems.reduce((total, item) => total + item.quantity, 0)})
-                </button>
-                {cartVisible && <CartDropdown cartItems={cartItems} removeFromCart={removeFromCart} adjustQuantity={adjustQuantity} />}
-            </div>
-            <h1>Data from Backend</h1>
-            <div className="main-content">
-                <div className="structure-list">
-                    <h2>Structure Listing</h2>
-                    <ul>
-                        {data.map(item => (
-                            <li key={item.structure_id}>
-                                ID: {item.structure_id}, Type: {item.structure_type}, User ID: {item.user_id}, Tags: {item.tags.join(', ')}
-                                <button onClick={() => addToCart(item)} style={{ marginLeft: '10px' }}>Add to Cart</button>
-                            </li>
-                        ))}
-                    </ul>
+        <Router>
+            <div className="container">
+                <div className="cart-dropdown">
+                    {!currentPage.includes('checkout') && ( // Check if current page is not checkout
+                        <button onClick={toggleCartVisibility} className="cart-button">
+                            Cart ({cartItems.reduce((total, item) => total + item.quantity, 0)})
+                        </button>
+                    )}
+                    {cartVisible && !currentPage.includes('checkout') && ( // Check if cart is visible and not on checkout page
+                        <CartDropdown cartItems={cartItems} removeFromCart={removeFromCart} adjustQuantity={adjustQuantity} />
+                    )}
                 </div>
+                <Routes>
+                    <RoutePath
+                        path="/"
+                        element={<Home data={data} addToCart={addToCart} />}
+                        onUpdate={(state) => setCurrentPage(state.location.pathname)} // Track current page
+                    />
+                    <RoutePath
+                        path="/checkout"
+                        element={<CheckoutPage cartItems={cartItems} />}
+                        onUpdate={(state) => setCurrentPage(state.location.pathname)} // Track current page
+                    />
+                </Routes>
             </div>
-        </div>
+        </Router>
     );
 }
+
+const Home = ({ data, addToCart }) => (
+    <>
+        <h1>Data from Backend</h1>
+        <div className="main-content">
+            <div className="structure-list">
+                <h2>Structure Listing</h2>
+                <ul>
+                    {data.map(item => (
+                        <li key={item.structure_id}>
+                            ID: {item.structure_id}, Type: {item.structure_type}, User ID: {item.user_id}, Tags: {item.tags.join(', ')}
+                            <button onClick={() => addToCart(item)} style={{ marginLeft: '10px' }}>Add to Cart</button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    </>
+);
 
 export default App;
