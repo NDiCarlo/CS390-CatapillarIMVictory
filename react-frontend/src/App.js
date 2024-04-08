@@ -1,8 +1,11 @@
+// App.js
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CartDropdown from './CartDropdown';
 import CheckoutPage from './CheckoutPage';
 import Navigation from './Navigation';
+import OrdersPage from './OrdersPage'; // Import the OrdersPage component
 import './App.css';
 
 function App() {
@@ -14,6 +17,8 @@ function App() {
 
     useEffect(() => {
         fetchData();
+        const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        setCartItems(storedCartItems);
     }, []);
 
     const fetchData = async () => {
@@ -88,6 +93,10 @@ function App() {
                         path="/checkout"
                         element={<CheckoutPage cartItems={cartItems} />}
                     />
+                    <Route
+                        path="/orders"
+                        element={<OrdersPage />} // Render the OrdersPage component
+                    />
                 </Routes>
             </div>
         </Router>
@@ -96,7 +105,6 @@ function App() {
 
 const Home = ({ data, addToCart }) => (
     <>
-        <h1>Data from Backend</h1>
         <div className="main-content">
             <div className="structure-list">
                 <h2>Structure Listing</h2>
