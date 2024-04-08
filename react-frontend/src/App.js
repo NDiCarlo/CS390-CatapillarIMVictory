@@ -1,8 +1,11 @@
+// App.js
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CartDropdown from './CartDropdown';
 import CheckoutPage from './CheckoutPage';
 import Navigation from './Navigation';
+import OrdersPage from './OrdersPage'; // Import the OrdersPage component
 import './App.css';
 
 function App() {
@@ -87,6 +90,10 @@ function App() {
                     <Route
                         path="/checkout"
                         element={<CheckoutPage cartItems={cartItems} />}
+                    />
+                    <Route
+                        path="/orders"
+                        element={<OrdersPage />} // Render the OrdersPage component
                     />
                 </Routes>
             </div>

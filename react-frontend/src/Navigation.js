@@ -8,11 +8,8 @@ function Navigation() {
             <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
                 <li><Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Home</Link></li>
                 <li><Link to="/checkout" style={{ color: 'white', textDecoration: 'none' }}>Checkout</Link></li>
+                <li><Link to="/orders" style={{ color: 'white', textDecoration: 'none' }}>Orders</Link></li> {/* New link for Orders page */}
             </ul>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <input type="text" placeholder="Search..." style={{ marginRight: '10px' }} />
-                <button>Search</button>
-            </div>
         </nav>
     );
 }
