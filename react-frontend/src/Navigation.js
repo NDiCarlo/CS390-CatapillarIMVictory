@@ -8,6 +8,8 @@ function Navigation() {
             <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
                 <li><Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Home</Link></li>
                 <li><Link to="/checkout" style={{ color: 'white', textDecoration: 'none' }}>Checkout</Link></li>
+                <li style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}></li>
+                <li><Link to="/" style={{ color: 'white', textDecoration: 'none' }}><img src="https://i.imgur.com/ATDfJNi.jpg" alt='' style={{ width: '100px', height: '100px' }} /></Link></li>
             </ul>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <input type="text" placeholder="Search..." style={{ marginRight: '10px' }} />
