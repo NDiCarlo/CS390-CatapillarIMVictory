@@ -1,16 +1,24 @@
+// App.js
+
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CartDropdown from './CartDropdown';
+import CheckoutPage from './CheckoutPage';
+import Navigation from './Navigation';
+import OrdersPage from './OrdersPage'; // Import the OrdersPage component
 import './App.css';
 
 function App() {
-    // Initialize cart state with items from local storage, if available
     const initialCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const [data, setData] = useState([]);
     const [cartItems, setCartItems] = useState(initialCartItems);
-    const [cartVisible, setCartVisible] = useState(false);
+    const [cartVisible, setCartVisible] = useState(true);
+    const [currentPage, setCurrentPage] = useState('/');
 
     useEffect(() => {
         fetchData();
+        const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        setCartItems(storedCartItems);
     }, []);
 
     const fetchData = async () => {
@@ -20,16 +28,14 @@ function App() {
                 throw new Error('Network response was not ok');
             }
             const jsonData = await response.json();
-            setData(jsonData.map(item => ({ ...item, quantity: 0 })));
+            setData(jsonData);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
-    // Function to update cart state and local storage
-    const updateCart = (updatedCartItems) => {
-        setCartItems(updatedCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    const toggleCartVisibility = () => {
+        setCartVisible(!cartVisible);
     };
 
     const addToCart = (item) => {
@@ -59,34 +65,60 @@ function App() {
         updateCart(updatedCartItems);
     };
 
-    const toggleCartVisibility = () => {
-        setCartVisible(!cartVisible);
+    const updateCart = (updatedCartItems) => {
+        setCartItems(updatedCartItems);
+        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
     };
 
     return (
-        <div className="container">
-            <div className="cart-dropdown">
-                <button onClick={toggleCartVisibility} className="cart-button">
-                    Cart ({cartItems.reduce((total, item) => total + item.quantity, 0)})
-                </button>
-                {cartVisible && <CartDropdown cartItems={cartItems} removeFromCart={removeFromCart} adjustQuantity={adjustQuantity} />}
-            </div>
-            <h1>Data from Backend</h1>
-            <div className="main-content">
-                <div className="structure-list">
-                    <h2>Structure Listing</h2>
-                    <ul>
-                        {data.map(item => (
-                            <li key={item.structure_id}>
-                                ID: {item.structure_id}, Type: {item.structure_type}, User ID: {item.user_id}, Tags: {item.tags.join(', ')}
-                                <button onClick={() => addToCart(item)} style={{ marginLeft: '10px' }}>Add to Cart</button>
-                            </li>
-                        ))}
-                    </ul>
+        <Router>
+            <div className="container">
+                <Navigation />
+                <div className="cart-dropdown">
+                    {!currentPage.includes('checkout') && !cartVisible && (
+                        <button onClick={toggleCartVisibility} className="cart-button">
+                            Cart ({cartItems.reduce((total, item) => total + item.quantity, 0)})
+                        </button>
+                    )}
+                    {cartVisible && !currentPage.includes('checkout') && (
+                        <CartDropdown cartItems={cartItems} removeFromCart={removeFromCart} adjustQuantity={adjustQuantity} />
+                    )}
                 </div>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={<Home data={data} addToCart={addToCart} />}
+                    />
+                    <Route
+                        path="/checkout"
+                        element={<CheckoutPage cartItems={cartItems} />}
+                    />
+                    <Route
+                        path="/orders"
+                        element={<OrdersPage />} // Render the OrdersPage component
+                    />
+                </Routes>
             </div>
-        </div>
+        </Router>
     );
 }
+
+const Home = ({ data, addToCart }) => (
+    <>
+        <div className="main-content">
+            <div className="structure-list">
+                <h2>Structure Listing</h2>
+                <ul>
+                    {data.map(item => (
+                        <li key={item.structure_id}>
+                            ID: {item.structure_id}, Type: {item.structure_type}, User ID: {item.user_id}, Tags: {item.tags.join(', ')}
+                            <button onClick={() => addToCart(item)} style={{ marginLeft: '10px' }}>Add to Cart</button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    </>
+);
 
 export default App;
