@@ -1,4 +1,3 @@
-// Cart.js
 import React from 'react';
 
 function Cart({ cartItems, removeFromCart, adjustQuantity }) {
@@ -12,7 +11,7 @@ function Cart({ cartItems, removeFromCart, adjustQuantity }) {
             <ul>
                 {cartItems.map(item => (
                     <li key={item.structure_id}>
-                        ID: {item.structure_id}, Type: {item.structure_type}
+                        ID: {item.structure_id}, Type: {item.structure_type}, Quantity: {item.quantity}
                         <div className="quantity-control">
                             <button onClick={() => handleAdjustQuantity(item, -1)}>-</button>
                             <span>{item.quantity}</span>

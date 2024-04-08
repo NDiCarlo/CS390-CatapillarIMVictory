@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route as RoutePath } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CartDropdown from './CartDropdown';
 import CheckoutPage from './CheckoutPage';
+import Navigation from './Navigation';
 import './App.css';
 
 function App() {
-    // Initialize cart state with items from local storage, if available
     const initialCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const [data, setData] = useState([]);
     const [cartItems, setCartItems] = useState(initialCartItems);
-    const [cartVisible, setCartVisible] = useState(true); // Initially visible
+    const [cartVisible, setCartVisible] = useState(true);
     const [currentPage, setCurrentPage] = useState('/');
 
     useEffect(() => {
@@ -23,7 +23,7 @@ function App() {
                 throw new Error('Network response was not ok');
             }
             const jsonData = await response.json();
-            setData(jsonData.map(item => ({ ...item, quantity: 0 })));
+            setData(jsonData);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -68,26 +68,25 @@ function App() {
     return (
         <Router>
             <div className="container">
+                <Navigation />
                 <div className="cart-dropdown">
-                    {!currentPage.includes('checkout') && ( // Check if current page is not checkout
+                    {!currentPage.includes('checkout') && !cartVisible && (
                         <button onClick={toggleCartVisibility} className="cart-button">
                             Cart ({cartItems.reduce((total, item) => total + item.quantity, 0)})
                         </button>
                     )}
-                    {cartVisible && !currentPage.includes('checkout') && ( // Check if cart is visible and not on checkout page
+                    {cartVisible && !currentPage.includes('checkout') && (
                         <CartDropdown cartItems={cartItems} removeFromCart={removeFromCart} adjustQuantity={adjustQuantity} />
                     )}
                 </div>
                 <Routes>
-                    <RoutePath
+                    <Route
                         path="/"
                         element={<Home data={data} addToCart={addToCart} />}
-                        onUpdate={(state) => setCurrentPage(state.location.pathname)} // Track current page
                     />
-                    <RoutePath
+                    <Route
                         path="/checkout"
                         element={<CheckoutPage cartItems={cartItems} />}
-                        onUpdate={(state) => setCurrentPage(state.location.pathname)} // Track current page
                     />
                 </Routes>
             </div>
