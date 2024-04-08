@@ -36,7 +36,6 @@ function CheckoutPage({ cartItems }) {
                 ))}
             </ul>
             <button onClick={handleOrder}>Order</button>
-            <Link to="/">Go Back</Link>
         </div>
     );
 }

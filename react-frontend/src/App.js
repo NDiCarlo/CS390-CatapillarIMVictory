@@ -17,6 +17,8 @@ function App() {
 
     useEffect(() => {
         fetchData();
+        const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        setCartItems(storedCartItems);
     }, []);
 
     const fetchData = async () => {
@@ -103,7 +105,6 @@ function App() {
 
 const Home = ({ data, addToCart }) => (
     <>
-        <h1>Data from Backend</h1>
         <div className="main-content">
             <div className="structure-list">
                 <h2>Structure Listing</h2>
