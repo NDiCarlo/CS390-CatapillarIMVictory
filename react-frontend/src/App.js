@@ -6,6 +6,7 @@ import CartDropdown from './CartDropdown';
 import CheckoutPage from './CheckoutPage';
 import Navigation from './Navigation';
 import OrdersPage from './OrdersPage'; // Import the OrdersPage component
+import Structure from './Structure';
 import './App.css';
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
     const [data, setData] = useState([]);
     const [cartItems, setCartItems] = useState(initialCartItems);
     const [cartVisible, setCartVisible] = useState(true);
-    const [currentPage, setCurrentPage] = useState('/');
+    const [currentPage] = useState('/');
 
     useEffect(() => {
         fetchData();
@@ -96,6 +97,10 @@ function App() {
                     <Route
                         path="/orders"
                         element={<OrdersPage />} // Render the OrdersPage component
+                    />
+                     <Route
+                        path="/structures/:id"
+                        element={<Structure />}
                     />
                 </Routes>
             </div>
