@@ -1,5 +1,6 @@
 // Navigation.js
 import React from 'react';
+import CartDropdown from './CartDropdown.js';
 import { Link } from 'react-router-dom';
 import logo from './CATLogo.png'; // Import the logo image
 
@@ -12,11 +13,13 @@ function Navigation({ cartItemCount }) {
                 </Link>
             </div>
             <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', alignItems: 'center' }}>
+                <li><Link to="/login" style={{ color: 'black', textDecoration: 'none', marginRight: '20px' }}>Login</Link></li>
                 <li><Link to="/orders" style={{ color: 'black', textDecoration: 'none', marginRight: '20px' }}>Orders</Link></li>
-                <li style={{ marginLeft: 'auto' }}><Link to="/checkout" style={{ color: 'white', textDecoration: 'none' }}>🛒 {cartItemCount > 0 && `(${cartItemCount})`}</Link></li>
+                <li style={{ marginLeft: 'auto' }}><Link to='/checkout' style={{ color: 'black', textDecoration: 'none' }}>Cart 🛒 {cartItemCount > 0 && `(${cartItemCount})`}</Link></li>
             </ul>
         </nav>
     );
 }
+
 
 export default Navigation;
