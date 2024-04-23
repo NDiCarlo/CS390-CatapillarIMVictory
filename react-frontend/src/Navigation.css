@@ -16,12 +16,13 @@
 
 .nav-menu li {
     display: inline;
-    margin-right: 20px;
+    margin-right: 100px;
 }
 
 .nav-menu li a {
     text-decoration: none;
     color: white; /* White link color */
+    margin-right: 100px;
 }
 
 .search-bar {

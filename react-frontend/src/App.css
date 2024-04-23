@@ -1,29 +1,97 @@
-/* App.css */
-nav {
-  display: flex;
-  justify-content: space-between; /* Align navigation items and logo at opposite ends */
-  align-items: center; /* Vertically center items */
-  background-color: white; /* white background color */
-  padding: 20px;
+
+.container {
+  max-width: 1600px;
+  max-height: 200px;
+  margin: 0 auto;
+  padding: 0px;
 }
 
-nav ul {
-  list-style-type: none;
+.cart-dropdown {
+  position: relative;
+}
+
+.cart-button {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  background-color: #ffdb4d;
+  border: 1px solid #000000;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 1000; /* Ensure the button appears above other content */
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content ul {
   margin: 0;
   padding: 0;
 }
 
-nav ul li {
-  display: inline;
-  margin-right: 20px;
+.dropdown-content ul li {
+  list-style: none;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
-nav ul li a {
-  text-decoration: none;
+.dropdown-content ul li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-content ul li button {
+  background-color: #ffc400;
+  border: none;
   color: black;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.dropdown-content ul li button:hover {
+  background-color: #ffdb4d;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffc400;
+  padding: 20px;
 }
 
 .logo {
-  width: 50px; /* Adjust the width of the logo as needed */
+  width: 50px;
   height: auto;
+}
+
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav-links li {
+  margin-right: 40px; /* Shift all items left by 200px */
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  right: 200px
+}
+
+.nav-links li a:hover {
+  color: #333;
 }

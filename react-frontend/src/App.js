@@ -1,11 +1,11 @@
 // App.js
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import CartDropdown from './CartDropdown';
 import CheckoutPage from './CheckoutPage';
 import Navigation from './Navigation';
-import OrdersPage from './OrdersPage'; // Import the OrdersPage component
+import OrdersPage from './OrdersPage';
 import Structure from './Structure';
 import './App.css';
 
@@ -13,8 +13,8 @@ function App() {
     const initialCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const [data, setData] = useState([]);
     const [cartItems, setCartItems] = useState(initialCartItems);
-    const [cartVisible, setCartVisible] = useState(true);
-    const [currentPage] = useState('/');
+    const [cartVisible, setCartVisible] = useState(false);
+    const [currentPage, setCurrentPage] = useState('/');
 
     useEffect(() => {
         fetchData();
@@ -74,11 +74,11 @@ function App() {
     return (
         <Router>
             <div className="container">
-                <Navigation />
+                <Navigation cartItemCount={cartItems.reduce((total, item) => total + item.quantity, 0)} />
                 <div className="cart-dropdown">
-                    {!currentPage.includes('checkout') && !cartVisible && (
+                    {!currentPage.includes('checkout') && (
                         <button onClick={toggleCartVisibility} className="cart-button">
-                            Cart ({cartItems.reduce((total, item) => total + item.quantity, 0)})
+                            Cart 🛒 ({cartItems.reduce((total, item) => total + item.quantity, 0)})
                         </button>
                     )}
                     {cartVisible && !currentPage.includes('checkout') && (
@@ -88,17 +88,17 @@ function App() {
                 <Routes>
                     <Route
                         path="/"
-                        element={<Home data={data} addToCart={addToCart} />}
+                        element={<Home data={data} addToCart={addToCart} setCurrentPage={setCurrentPage} />}
                     />
                     <Route
                         path="/checkout"
-                        element={<CheckoutPage cartItems={cartItems} />}
+                        element={<CheckoutPage cartItems={cartItems} setCurrentPage={setCurrentPage} />}
                     />
                     <Route
                         path="/orders"
-                        element={<OrdersPage />} // Render the OrdersPage component
+                        element={<OrdersPage setCurrentPage={setCurrentPage} />} // Pass setCurrentPage function to OrdersPage
                     />
-                     <Route
+                    <Route
                         path="/structures/:id"
                         element={<Structure />}
                     />
@@ -108,7 +108,7 @@ function App() {
     );
 }
 
-const Home = ({ data, addToCart }) => (
+const Home = ({ data, addToCart, setCurrentPage }) => (
     <>
         <div className="main-content">
             <div className="structure-list">
@@ -117,7 +117,7 @@ const Home = ({ data, addToCart }) => (
                     {data.map(item => (
                         <li key={item.structure_id}>
                             ID: {item.structure_id}, Type: {item.structure_type}, User ID: {item.user_id}, Tags: {item.tags.join(', ')}
-                            <button onClick={() => addToCart(item)} style={{ marginLeft: '10px' }}>Add to Cart</button>
+                            <button onClick={() => {addToCart(item); setCurrentPage('/')}} style={{ marginLeft: '10px' }}>Add to Cart</button>
                         </li>
                     ))}
                 </ul>

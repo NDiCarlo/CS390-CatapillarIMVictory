@@ -1,9 +1,12 @@
+// OrdersPage.js
+
 import React, { useState } from 'react';
 
-function OrdersPage() {
+function OrdersPage({ setCurrentPage }) {
     const [userId, setUserId] = useState('');
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleSearch = async () => {
         try {
@@ -15,7 +18,7 @@ function OrdersPage() {
             const data = await response.json();
             setOrders(data);
         } catch (error) {
-            console.error('Error searching orders:', error);
+            setError(error.message);
         } finally {
             setLoading(false);
         }
@@ -24,7 +27,7 @@ function OrdersPage() {
     return (
         <div>
             <h1>Orders Page</h1>
-            <h2>Recent Orders</h2>
+            <h2>Search Orders</h2>
             <div>
                 <input
                     type="text"
@@ -32,9 +35,10 @@ function OrdersPage() {
                     onChange={(e) => setUserId(e.target.value)}
                     placeholder="Enter User ID"
                 />
-                <button onClick={handleSearch}>Search</button>
+                <button onClick={() => {handleSearch(); setCurrentPage('/')}}>Search</button>
             </div>
             {loading && <p>Loading...</p>}
+            {error && <p>{error}</p>}
             <ul>
                 {orders.map((order) => (
                     <li key={order.order_id}>
