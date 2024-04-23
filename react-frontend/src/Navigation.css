@@ -1,11 +1,11 @@
 /* Navigation.css */
 .navbar {
-    background-color: black; /* Black background */
+    background-color: #ffc400; /* CAT yellow background */
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white; /* White text */
+    color: black; /* black text */
 }
 
 .nav-menu {
@@ -39,7 +39,7 @@
 
 .search-bar button {
     padding: 5px 10px;
-    background-color: #fcb040; /* Caterpillar yellow */
+    background-color: #ffc400; /* Caterpillar yellow */
     color: black; /* Text color */
     border: none;
     border-radius: 5px;

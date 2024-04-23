@@ -23,7 +23,8 @@ function OrdersPage() {
 
     return (
         <div>
-            <h2>Orders Page</h2>
+            <h1>Orders Page</h1>
+            <h2>Recent Orders</h2>
             <div>
                 <input
                     type="text"

@@ -3,7 +3,7 @@ nav {
   display: flex;
   justify-content: space-between; /* Align navigation items and logo at opposite ends */
   align-items: center; /* Vertically center items */
-  background-color: #ffffcc; /* Light yellow background color */
+  background-color: white; /* white background color */
   padding: 20px;
 }
 
